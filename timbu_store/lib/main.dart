@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,56 +13,119 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: Scaffold(
-          body: Container(
-        child: const Column(
-          children: [
-            Row(
+        body: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Container(
+            child: const Column(
               children: [
-                Text('Hello'),
+                CosAppBar(),
+                SizedBox(
+                  height: 4,
+                ),
+                SearchBar(),
+                SizedBox(
+                  height: 4,
+                ),
+                CategoryFilter(),
+                Expanded(child: Placeholder())
               ],
             ),
-            BottomNavBar()
-          ],
+          ),
         ),
-      )),
+        bottomNavigationBar: const BottomNavBars(),
+      ),
     );
   }
 }
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+class CosAppBar extends StatelessWidget {
+  const CosAppBar({super.key});
 
   @override
-  State<BottomNavBar> createState() => _BottomNavBarState();
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text('Timbu Store'),
+        const SizedBox(width: 10),
+        Row(
+          children: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
+            const SizedBox(width: 3),
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notification_add_sharp))
+          ],
+        )
+      ],
+    );
+  }
 }
 
-class _BottomNavBarState extends State<BottomNavBar> {
+class SearchBar extends StatelessWidget {
+  const SearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: TextField(
+        decoration: InputDecoration(
+            hintText: 'Search for products..',
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: const Icon(Icons.filter_list),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+      ),
+    );
+  }
+}
+
+class CategoryFilter extends StatelessWidget {
+  const CategoryFilter({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      const Text(
+        'Categories',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      const Text('Costumes'),
+      Row(
+        children: [
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.grid_view_outlined)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.list_sharp)),
+        ],
+      )
+    ]);
+  }
+}
+
+class BottomNavBars extends StatefulWidget {
+  const BottomNavBars({super.key});
+
+  @override
+  State<BottomNavBars> createState() => _BottomNavBarsState();
+}
+
+class _BottomNavBarsState extends State<BottomNavBars> {
   int SelectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ,
-    );
+    return BottomNavigationBar(items: const [
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.shopping_basket), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.grid_view_sharp), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.favorite), label: ''),
+      BottomNavigationBarItem(icon: Icon(Icons.person), label: '')
+    ], selectedItemColor: Colors.black26, unselectedItemColor: Colors.grey);
   }
 }
